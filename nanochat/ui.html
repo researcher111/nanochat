@@ -8,6 +8,11 @@
     <style>
         :root {
             color-scheme: light;
+            --uva-navy: #232D4B;
+            --uva-navy-700: #1b2440;
+            --uva-orange: #E57200;
+            --uva-orange-soft: #fdebd9;
+            --uva-orange-tint: #fbdcc0;
         }
 
         * {
@@ -30,8 +35,9 @@
         }
 
         .header {
-            background-color: #ffffff;
-            padding: 1.25rem 1.5rem;
+            background-color: var(--uva-navy);
+            border-bottom: 3px solid var(--uva-orange);
+            padding: 1.1rem 1.5rem;
         }
 
         .header-left {
@@ -47,19 +53,32 @@
 
         .header h1 {
             font-size: 1.25rem;
-            font-weight: 600;
+            font-weight: 700;
             margin: 0;
-            color: #111827;
+            color: #ffffff;
+            letter-spacing: -0.01em;
         }
+
+        .header-eyebrow {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--uva-orange);
+            margin-bottom: 1px;
+        }
+
+        .header-accent { color: var(--uva-orange); font-weight: 600; }
 
         .new-conversation-btn {
             width: 32px;
             height: 32px;
             padding: 0;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.35);
             border-radius: 0.5rem;
-            background-color: #ffffff;
-            color: #6b7280;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -68,9 +87,9 @@
         }
 
         .new-conversation-btn:hover {
-            background-color: #f3f4f6;
-            border-color: #d1d5db;
-            color: #374151;
+            background-color: var(--uva-orange);
+            border-color: var(--uva-orange);
+            color: #ffffff;
         }
 
         .chat-container {
@@ -124,7 +143,7 @@
         }
 
         .message.user .message-content {
-            background-color: #f3f4f6;
+            background-color: var(--uva-orange-soft);
             border-radius: 1.25rem;
             padding: 0.8rem 1rem;
             max-width: 65%;
@@ -133,7 +152,7 @@
         }
 
         .message.user .message-content:hover {
-            background-color: #e5e7eb;
+            background-color: var(--uva-orange-tint);
         }
 
         .message.console .message-content {
@@ -180,8 +199,8 @@
         }
 
         .chat-input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--uva-orange);
+            box-shadow: 0 0 0 3px rgba(229, 114, 0, 0.15);
         }
 
         .send-button {
@@ -189,9 +208,9 @@
             padding: 0;
             width: 54px;
             height: 54px;
-            border: 1px solid #111827;
+            border: 1px solid var(--uva-navy);
             border-radius: 0.75rem;
-            background-color: #111827;
+            background-color: var(--uva-navy);
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -201,8 +220,8 @@
         }
 
         .send-button:hover:not(:disabled) {
-            background-color: #2563eb;
-            border-color: #2563eb;
+            background-color: var(--uva-orange);
+            border-color: var(--uva-orange);
         }
 
         .send-button:disabled {
@@ -247,7 +266,10 @@
                     <path d="M5 12h14"></path>
                 </svg>
             </button>
-            <h1>nanochat</h1>
+            <div class="header-titles">
+                <span class="header-eyebrow">UVA Data Science · DS 6042</span>
+                <h1>nanochat <span class="header-accent">— trained by you</span></h1>
+            </div>
         </div>
     </div>
 
@@ -276,7 +298,10 @@
     </div>
 
     <script>
-        const API_URL = '';
+        // Make API calls relative to the page's own path so the UI works both
+        // locally (http://localhost:8000/) and behind a reverse proxy such as
+        // UVA Open OnDemand (https://ood.hpc.virginia.edu/rnode/<node>/8000/).
+        const API_URL = window.location.pathname.replace(/\/$/, '');
         const chatContainer = document.getElementById('chatContainer');
         const chatWrapper = document.getElementById('chatWrapper');
         const chatInput = document.getElementById('chatInput');
